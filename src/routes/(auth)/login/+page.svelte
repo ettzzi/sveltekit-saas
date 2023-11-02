@@ -33,26 +33,58 @@
 	{/if}
 
 	<Panel title="Login">
-		<form method="POST" class="flow" action="?/loginUser">
-			<Textfield name="email" fieldType="email" label="Email" />
-
-			<Textfield
-				name="password"
-				label="Password"
-				fieldType="password"
-				autocomplete="current-password"
-			/>
-
-			<div class="actions">
-				<a class="action-item" href="/password-reset">Forgot your password?</a>
-
-				<Button type="submit">Login</Button>
+		<div class="flow">
+			<div class="center">
+				<Button href="/api/oauth/google" fullWidth kind="outline">Login with Google</Button>
 			</div>
-		</form>
+			<div class="or-line">
+				<p class="or__line">
+					<span class="or__text">or</span>
+				</p>
+			</div>
+
+			<form method="POST" class="flow" action="?/loginUser">
+				<Textfield name="email" fieldType="email" label="Email" />
+
+				<Textfield
+					name="password"
+					label="Password"
+					fieldType="password"
+					autocomplete="current-password"
+				/>
+
+				<div class="actions">
+					<a class="action-item" href="/password-reset">Forgot your password?</a>
+
+					<Button type="submit">Login</Button>
+				</div>
+			</form>
+		</div>
 	</Panel>
 </main>
 
 <style>
+	.or-line {
+		display: block;
+		margin-bottom: 1.875rem;
+	}
+	.or__line {
+		display: block;
+		text-align: center;
+		line-height: 0;
+		border-bottom: 1px solid #a7b0b7;
+		padding-top: 0.625rem;
+	}
+	.or__text {
+		display: inline;
+		padding: 0 0.625rem;
+		font-weight: 700;
+		background: #fff;
+		color: #666e7e;
+		text-transform: uppercase;
+		font-size: 0.625rem;
+		line-height: 0;
+	}
 	.action-item {
 		text-decoration: underline;
 		color: var(--color-gray-600);
@@ -71,5 +103,8 @@
 
 	.alert-content a {
 		color: var(--color-light);
+	}
+	.center {
+		text-align: center;
 	}
 </style>

@@ -11,6 +11,8 @@
 	import { createToast } from '$lib/components/Toast.svelte';
 
 	export let form: ActionData;
+
+	$: user = $page.data.user;
 </script>
 
 <div class="flow container">
@@ -27,7 +29,7 @@
 		</Alert>
 	{/if}
 
-	{#if $page.data.user.emailVerified === false}
+	{#if user.emailVerified === false}
 		<Alert title="Your user is not verified" type="warning">
 			<div class="flow">
 				<p>Please check your email to verify your account or request a new verification code</p>
@@ -77,30 +79,33 @@
 					};
 				}}
 			>
-				<Textfield
-					label="Password"
-					disabled={!$page.data.user.emailVerified}
-					fieldType="password"
-					name="current_password"
-					required
-				/>
+				{#if user.passwordDefined}
+					<Textfield
+						label="Password"
+						disabled={!user.emailVerified}
+						fieldType="password"
+						name="current_password"
+						required
+					/>
+				{/if}
+
 				<Textfield
 					label="New password"
-					disabled={!$page.data.user.emailVerified}
+					disabled={!user.emailVerified}
 					fieldType="password"
 					name="new_password"
 					required
 				/>
 
 				<Textfield
-					label="New password"
-					disabled={!$page.data.user.emailVerified}
+					label="Password confirmation"
+					disabled={!user.emailVerified}
 					fieldType="password"
 					name="password_confirmation"
 					required
 				/>
 
-				<Button type="submit" disabled={!$page.data.user.emailVerified}>Update password</Button>
+				<Button type="submit" disabled={!user.emailVerified}>Update password</Button>
 			</form>
 		</Panel>
 

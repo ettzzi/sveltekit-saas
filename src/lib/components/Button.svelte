@@ -11,6 +11,7 @@
 	export let size: Size = 'medium';
 	export let kind: Kind = 'solid';
 	export let href: string | undefined = undefined;
+	export let fullWidth: boolean = false;
 </script>
 
 {#if href}
@@ -31,7 +32,7 @@
 		word-wrap: break-word;
 		box-shadow: none;
 		border-style: solid;
-		border-width: 0px;
+		border-width: 2px;
 	}
 
 	button:disabled {
@@ -73,6 +74,7 @@
 	.primary.outline {
 		background-color: #fff;
 		color: var(--color-blue-500);
+		border-color: var(--color-blue-300);
 	}
 
 	.danger {
@@ -85,5 +87,9 @@
 		color: var(--color-white, #fff);
 		background-color: var(--color-red-300);
 		border-color: var(--color-red-300);
+	}
+
+	.fullWidth {
+		width: 100%;
 	}
 </style>

@@ -8,6 +8,16 @@ import { fail, type Actions, redirect } from '@sveltejs/kit';
 import { LuciaError } from 'lucia';
 import z from 'zod';
 
+export const load = async ({ parent }) => {
+	const { user } = await parent();
+
+	const keys = await auth.getAllUserKeys(user.userId)
+	return { user: {
+		...user,
+		passwordDefined: keys.some(item => item.passwordDefined)
+	} };
+}
+
 const updateUserInfoSchema = z.object({
 	name: z.string().min(1, 'Name is required'),
 	email: z.string({
@@ -17,7 +27,7 @@ const updateUserInfoSchema = z.object({
 
 const updatePasswordSchema = z
 	.object({
-		current_password: z.string().min(1, 'Current password is required'),
+		current_password: z.string().optional(),
 		new_password: z.string().min(1, 'New password is required'),
 		password_confirmation: z.string().min(1, 'Password confirmation is required')
 	})
@@ -137,8 +147,29 @@ export const actions: Actions = {
 		}
 
 		try {
-			await auth.useKey('email', session?.user.email, passwordInfo.data.current_password);
-			await auth.updateKeyPassword('email', session?.user.email, passwordInfo.data.new_password);
+			const keys = await auth.getAllUserKeys(session.user.userId)
+			const passwordDefined = keys.some(item => item.passwordDefined)
+
+			// If password is defined giving the current password is mandatory
+			if (passwordDefined) {
+				if (!passwordInfo.data.current_password) {
+					return fail(400, {
+						errors: {
+							field: 'current_password',
+							message: 'Current password is required'
+						}
+					})
+				}
+				await auth.useKey('email', session?.user.email, passwordInfo.data.current_password);
+				await auth.updateKeyPassword('email', session?.user.email, passwordInfo.data.new_password);
+			} else {
+				await auth.createKey({
+					providerId: 'email',
+					password: passwordInfo.data.new_password,
+					userId: session.user.userId,
+					providerUserId: session.user.email.toLowerCase(),
+				})
+			}
 
 			return {
 				success: true
