@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model User {
+  id             String    @id @unique
+  email          String    @unique
+  email_verified Boolean   @default(false)
+  name           String
+  key            Key[]
+  auth_session   Session[]
+
+  EmailVerificationToken EmailVerificationToken[]
+  PasswordResetToken     PasswordResetToken[]
+}
+
+model Session {
+  id             String @id @unique
+  user_id        String
+  active_expires BigInt
+  idle_expires   BigInt
+  user           User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id])
+}
+
+model Key {
+  id              String  @id @unique
+  hashed_password String?
+  user_id         String
+  user            User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id])
+}
+
+model EmailVerificationToken {
+  id      String @id @unique
+  user_id String
+  expires BigInt
+  user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id])
+}
+
+model PasswordResetToken {
+  id      String @id @unique
+  user_id String
+  expires BigInt
+  user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id])
+}
