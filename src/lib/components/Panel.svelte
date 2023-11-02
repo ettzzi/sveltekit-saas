@@ -10,7 +10,6 @@
 
 <style>
 	.title {
-		text-align: center;
 		margin-bottom: var(--s-sm);
 		font-size: var(--fs-2xl);
 		font-weight: var(--fw-600);

@@ -27,9 +27,12 @@ By cloning this project you will have already a project with:
 6. Setup the database `npx prisma db push`
 7. `npm run dev`
 
+### Google Auth
+Please refer to [Google Oauth Documentaiton](https://developers.google.com/identity/protocols/oauth2/web-server#httprests)
+
 ## Deployment
 
-Currently, the project is setup for deployment on [Vercel](https://vercel.com) and uses MySQL as database from (PlanetScale)[http://planetscale.com]. This is mostly chosen because of their generous free tiers.
+Currently, the project is setup for deployment on [Vercel](https://vercel.com) and uses MySQL as database from [PlanetScale](http://planetscale.com). This is mostly chosen because of their generous free tiers.
 
 ## Roadmap
 
