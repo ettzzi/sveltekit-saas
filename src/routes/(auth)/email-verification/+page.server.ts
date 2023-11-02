@@ -14,7 +14,7 @@ export const actions: Actions = {
 
 			sendEmail({
 				to: String(session.user.email),
-				subject: `Welcome to SS`,
+				subject: `Welcome to SvelteKit Starter`,
 				html: `<html><body><p>Click <a href="${url.origin}/email-verification/${token}">here</a> to verify your e-mail address.</p></body></html>`
 			});
 
