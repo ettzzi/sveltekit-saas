@@ -1,8 +1,8 @@
 import { dev } from '$app/environment';
-import { SMTP_FROM, POSTMARK_API_TOKEN } from '$env/static/private';
+import { SMTP_FROM, EMAIL_API_TOKEN } from '$env/static/private';
+import { Resend } from 'resend';
 
-import { Client } from 'postmark';
-const postmarkClient = new Client(POSTMARK_API_TOKEN);
+const emailClient = new Resend(EMAIL_API_TOKEN);
 
 export const sendEmail = async ({
 	to,
@@ -19,15 +19,13 @@ export const sendEmail = async ({
 	}
 
 	const options = {
-		From: SMTP_FROM,
-		To: to,
-		Subject: subject,
-		HtmlBody: html
+		from: SMTP_FROM,
+		to: to,
+		subject: subject,
+		html
 	};
 
-	const result = await postmarkClient.sendEmail(options);
-
-	if (result.ErrorCode) {
-		throw new Error(result.Message);
-	}
+	return emailClient.emails.send(options).catch((e) => {
+		console.error(e);
+	});
 };

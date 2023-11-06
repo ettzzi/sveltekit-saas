@@ -13,8 +13,8 @@ By cloning this project you will have already a project with:
 - TypeScript
 - Zod for form validations
 - Prisma as ORM
-- Postmark for Email delivery
-- MySQL with PlanetScale
+- Resend for Email delivery
+- MySQL
 - CSS for styling
 
 ## Setup
@@ -29,6 +29,10 @@ By cloning this project you will have already a project with:
 
 ### Google Auth
 Please refer to [Google Oauth Documentaiton](https://developers.google.com/identity/protocols/oauth2/web-server#httprests)
+
+### Resend
+
+We use [Resend](https://resend.com) to send e-mails. For production you will need to setup your domain DNS.
 
 ## Deployment
 

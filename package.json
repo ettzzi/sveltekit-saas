@@ -47,7 +47,7 @@
 		"@prisma/client": "^5.4.2",
 		"better-sqlite3": "^9.0.0",
 		"lucia": "^2.7.2",
-		"postmark": "^3.1.1",
+		"resend": "^2.0.0",
 		"zod": "^3.22.4"
 	}
 }
