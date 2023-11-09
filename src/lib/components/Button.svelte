@@ -12,12 +12,13 @@
 	export let kind: Kind = 'solid';
 	export let href: string | undefined = undefined;
 	export let fullWidth: boolean = false;
+	export let formAction: string | undefined = undefined;
 </script>
 
 {#if href}
 	<a {href} class="{variant} {size} {kind}"><slot /></a>
 {:else}
-	<button on:click class="{variant} {size} {kind}" {type} {disabled}>
+	<button on:click class="{variant} {size} {kind}" {type} {disabled} {formAction}>
 		<slot />
 	</button>
 {/if}

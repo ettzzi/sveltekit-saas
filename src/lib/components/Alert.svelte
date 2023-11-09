@@ -25,6 +25,7 @@
 
 	.alert-title {
 		font-size: var(--fs-xl);
-		line-height: var(--lh-xl);
+		line-height: var(--lh-sm);
+		margin-bottom: var(--s-sm);
 	}
 </style>

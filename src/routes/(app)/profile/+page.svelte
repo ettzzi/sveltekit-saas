@@ -15,7 +15,7 @@
 	$: user = $page.data.user;
 </script>
 
-<div class="flow container">
+<div class="flow">
 	{#if form?.errors || form?.message}
 		<Alert title="An error occurred">
 			{#if form.message}
@@ -118,9 +118,6 @@
 </div>
 
 <style>
-	.container {
-		margin: var(--s-4xl) auto;
-	}
 	.alert-content a {
 		color: var(--on-error);
 	}

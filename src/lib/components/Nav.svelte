@@ -60,7 +60,7 @@
 					aria-label="Open menu"
 					tabindex="0"
 				>
-					<a href="/dashboard" class="dropdown-item" role="menuitem">Dashboard</a>
+					<a href="/" class="dropdown-item" role="menuitem">Dashboard</a>
 					<a href="/profile" class="dropdown-item" role="menuitem">Profile </a>
 					<form method="POST" action="/login?/logout" use:enhance>
 						<button type="submit" class="dropdown-item" role="menuitem">Sign out</button>
@@ -69,7 +69,6 @@
 			</div>
 		{:else}
 			<div class="actions">
-				<Button size="small" href="/register">Sign up</Button>
 				<Button href="/login" size="small" variant="primary" kind="outline">Sign in</Button>
 			</div>
 		{/if}
@@ -83,7 +82,8 @@
 	}
 
 	.container {
-		height: 80px;
+		padding: 0 var(--s-xl);
+		height: 60px;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;

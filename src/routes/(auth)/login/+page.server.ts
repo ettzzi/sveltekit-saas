@@ -9,7 +9,7 @@ const loginUserSchema = z.object({
 });
 
 export const actions: Actions = {
-	loginUser: async ({ request, locals }) => {
+	loginUser: async ({ request, locals, cookies }) => {
 		const formData = Object.fromEntries(await request.formData());
 		const userData = loginUserSchema.safeParse(formData);
 
@@ -51,7 +51,11 @@ export const actions: Actions = {
 			});
 		}
 
-		throw redirect(302, '/dashboard');
+		const redirectTo = cookies.get('redirect_to');
+		if (redirectTo) {
+			throw redirect(302, redirectTo);
+		}
+		throw redirect(302, '/');
 	},
 	logout: async ({ locals }) => {
 		const session = await locals.auth.validate();

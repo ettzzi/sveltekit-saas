@@ -1,20 +1,9 @@
-<script lang="ts">
-	import Nav from '$lib/components/Nav.svelte';
-	import Toast from '$lib/components/Toast.svelte';
-	import type { LayoutServerData } from './$types';
-
-	export let data: LayoutServerData;
-</script>
-
-<div>
-	<Nav user={data.user} />
+<main>
 	<slot />
-</div>
-<Toast />
+</main>
 
 <style>
-	div {
-		min-height: 100vh;
-		background-color: var(--color-gray-100);
+	main {
+		padding: var(--s-4xl) var(--s-xl);
 	}
 </style>

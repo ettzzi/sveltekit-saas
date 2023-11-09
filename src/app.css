@@ -179,12 +179,6 @@ h6 {
 	display: none;
 }
 
-.container {
-	max-width: var(--max-width);
-	margin-inline: auto;
-	padding: 0 var(--s-2xl);
-}
-
 .sr-only {
 	position: absolute;
 	width: 1px;
@@ -205,4 +199,17 @@ h6 {
 	overflow: visible;
 	clip: auto;
 	white-space: normal;
+}
+
+.rotate {
+	animation: loader 0.5s linear infinite;
+}
+
+@keyframes loader {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
 }

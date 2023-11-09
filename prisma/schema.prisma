@@ -18,6 +18,8 @@ model User {
 
   EmailVerificationToken EmailVerificationToken[]
   PasswordResetToken     PasswordResetToken[]
+  UserTeamRole           UserTeamRole[]
+  Invite                 Invite[]
 }
 
 model Session {
@@ -55,4 +57,44 @@ model PasswordResetToken {
   user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@index([user_id])
+}
+
+model Team {
+  id           Int            @id @unique @default(autoincrement())
+  name         String
+  slug         String         @unique
+  UserTeamRole UserTeamRole[]
+  Invite       Invite[]
+}
+
+model UserTeamRole {
+  id      Int    @id @unique @default(autoincrement())
+  user_id String
+  team_id Int
+  role    Role   @default(USER)
+  user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  team    Team   @relation(fields: [team_id], references: [id], onDelete: Cascade)
+
+  @@index([team_id])
+  @@index([user_id])
+}
+
+model Invite {
+  id         Int      @id @unique @default(autoincrement())
+  inviter_id String
+  email      String
+  expiresAt  DateTime
+  team_id    Int
+  token      String   @unique
+  role       Role     @default(USER)
+  team       Team     @relation(fields: [team_id], references: [id], onDelete: Cascade)
+  inviter    User     @relation(fields: [inviter_id], references: [id])
+
+  @@index([team_id])
+  @@index([inviter_id])
+}
+
+enum Role {
+  ADMIN
+  USER
 }

@@ -18,6 +18,6 @@
 
 <style>
 	.small {
-		width: 200px;
+		max-width: 200px;
 	}
 </style>

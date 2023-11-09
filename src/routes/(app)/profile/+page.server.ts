@@ -11,18 +11,23 @@ import z from 'zod';
 export const load = async ({ parent }) => {
 	const { user } = await parent();
 
-	const keys = await auth.getAllUserKeys(user.userId)
-	return { user: {
-		...user,
-		passwordDefined: keys.some(item => item.passwordDefined)
-	} };
-}
+	const keys = await auth.getAllUserKeys(user.userId);
+	return {
+		user: {
+			...user,
+			passwordDefined: keys.some((item) => item.passwordDefined)
+		}
+	};
+};
 
 const updateUserInfoSchema = z.object({
 	name: z.string().min(1, 'Name is required'),
-	email: z.string({
-		required_error: 'Email is required'
-	}).email().min(1)
+	email: z
+		.string({
+			required_error: 'Email is required'
+		})
+		.email()
+		.min(1)
 });
 
 const updatePasswordSchema = z
@@ -129,7 +134,7 @@ export const actions: Actions = {
 		const passwordInfo = updatePasswordSchema.safeParse(formData);
 
 		if (!passwordInfo.success) {
-			console.log(passwordInfo.error.issues)
+			console.log(passwordInfo.error.issues);
 			const data = {
 				errors: passwordInfo.error.issues.map((issue) => {
 					return {
@@ -147,8 +152,8 @@ export const actions: Actions = {
 		}
 
 		try {
-			const keys = await auth.getAllUserKeys(session.user.userId)
-			const passwordDefined = keys.some(item => item.passwordDefined)
+			const keys = await auth.getAllUserKeys(session.user.userId);
+			const passwordDefined = keys.some((item) => item.passwordDefined);
 
 			// If password is defined giving the current password is mandatory
 			if (passwordDefined) {
@@ -158,7 +163,7 @@ export const actions: Actions = {
 							field: 'current_password',
 							message: 'Current password is required'
 						}
-					})
+					});
 				}
 				await auth.useKey('email', session?.user.email, passwordInfo.data.current_password);
 				await auth.updateKeyPassword('email', session?.user.email, passwordInfo.data.new_password);
@@ -167,8 +172,8 @@ export const actions: Actions = {
 					providerId: 'email',
 					password: passwordInfo.data.new_password,
 					userId: session.user.userId,
-					providerUserId: session.user.email.toLowerCase(),
-				})
+					providerUserId: session.user.email.toLowerCase()
+				});
 			}
 
 			return {
@@ -193,6 +198,24 @@ export const actions: Actions = {
 	delete: async ({ locals }) => {
 		try {
 			const session = await locals.auth.validate();
+			const teams = await prisma.userTeamRole.findMany({
+				where: {
+					user_id: session?.user.userId,
+					role: 'ADMIN'
+				},
+				select: {
+					team_id: true
+				}
+			});
+			const deleteTeamPromises = teams.map((team) =>
+				prisma.team.delete({
+					where: {
+						id: team.team_id
+					}
+				})
+			);
+
+			await prisma.$transaction(deleteTeamPromises);
 			await auth.deleteUser(session!.user.userId);
 		} catch (e) {
 			if (e instanceof PrismaClientValidationError) {
