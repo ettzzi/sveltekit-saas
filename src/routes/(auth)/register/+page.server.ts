@@ -26,7 +26,7 @@ const userSchema = z
 
 export const actions: Actions = {
 	default: async (event) => {
-		const { request, locals, url } = event;
+		const { request, locals, url, cookies } = event;
 		const formData = Object.fromEntries(await request.formData());
 		const userData = userSchema.safeParse(formData);
 
@@ -83,6 +83,10 @@ export const actions: Actions = {
 			});
 		}
 
-		throw redirect(302, '/dashboard');
+		const redirectTo = cookies.get('redirect_to');
+		if (redirectTo) {
+			throw redirect(302, redirectTo);
+		}
+		throw redirect(302, '/');
 	}
 };
