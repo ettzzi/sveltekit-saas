@@ -13,10 +13,11 @@ export const actions: Actions = {
 			throw new Error('User not found');
 		}
 
+		const slug = name!.toString().toLowerCase().replace(/\s/g, '-');
 		await prisma.team.create({
 			data: {
 				name: name!.toString(),
-				slug: name!.toString().toLowerCase().replace(/\s/g, '-'),
+				slug,
 				UserTeamRole: {
 					create: {
 						user_id: session.user.userId,
@@ -26,6 +27,6 @@ export const actions: Actions = {
 			}
 		});
 
-		throw redirect(302, '/');
+		throw redirect(302, `/${slug}`);
 	}
 };

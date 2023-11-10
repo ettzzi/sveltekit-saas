@@ -3,7 +3,7 @@ import { sendEmail } from '$lib/server/email.js';
 import { fail, redirect } from '@sveltejs/kit';
 import crypto from 'crypto';
 
-export const load = async ({ params }) => {
+export const load = async ({ params, parent }) => {
 	const team = await prisma.team.findUnique({
 		where: {
 			slug: params.slug
@@ -12,6 +12,7 @@ export const load = async ({ params }) => {
 	if (!team) {
 		throw redirect(302, '/');
 	}
+
 	return {
 		team,
 		streamed: {
