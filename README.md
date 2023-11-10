@@ -7,6 +7,8 @@ By cloning this project you will have already a project with:
 - Simple profile management to change name, e-mail, password.
 - Account deletion
 - Request to reset password
+- Create/Delete a team
+- Invite users to a team
 
 ## Tech Stack
 - SvelteKit
