@@ -83,7 +83,7 @@ model Invite {
   id         Int      @id @unique @default(autoincrement())
   inviter_id String
   email      String
-  expiresAt  DateTime
+  expires_at DateTime
   team_id    Int
   token      String   @unique
   role       Role     @default(USER)

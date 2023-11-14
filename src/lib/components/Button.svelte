@@ -18,7 +18,14 @@
 {#if href}
 	<a {href} class="{variant} {size} {kind}"><slot /></a>
 {:else}
-	<button on:click class="{variant} {size} {kind}" {type} {disabled} {formAction}>
+	<button
+		on:click
+		class="{variant} {size} {kind}"
+		class:fullWidth
+		{type}
+		{disabled}
+		formaction={formAction}
+	>
 		<slot />
 	</button>
 {/if}

@@ -3,7 +3,7 @@ import { sendEmail } from '$lib/server/email.js';
 import { fail, redirect } from '@sveltejs/kit';
 import crypto from 'crypto';
 
-export const load = async ({ params, parent }) => {
+export const load = async ({ params }) => {
 	const team = await prisma.team.findUnique({
 		where: {
 			slug: params.slug
@@ -51,7 +51,9 @@ export const actions = {
 		});
 
 		if (!userTeamRole || userTeamRole.role !== 'ADMIN') {
-			throw new Error('You do not have permission to delete this team');
+			return fail(401, {
+				message: 'You are not authorized to delete this team'
+			});
 		}
 
 		await prisma.team.delete({
@@ -59,6 +61,10 @@ export const actions = {
 				slug: params.slug
 			}
 		});
+
+		return {
+			success: true
+		};
 	},
 	inviteUser: async ({ locals, request, params, url }) => {
 		const session = await locals.auth.validate();
@@ -75,7 +81,7 @@ export const actions = {
 			}
 		});
 		if (!team) {
-			throw fail(400, {
+			return fail(400, {
 				message: 'Team not found'
 			});
 		}
@@ -86,7 +92,7 @@ export const actions = {
 				email: email!.toString(),
 				team_id: team?.id,
 				token,
-				expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000)
+				expires_at: new Date(Date.now())
 			}
 		});
 
@@ -95,5 +101,9 @@ export const actions = {
 			subject: `You've been invited to SvelteKit Starter`,
 			html: `<html><body><p>Click <a href="${url.origin}/accept-invite/${token}">here</a> to accept your invite.</p></body></html>`
 		});
+
+		return {
+			success: true
+		};
 	}
 };

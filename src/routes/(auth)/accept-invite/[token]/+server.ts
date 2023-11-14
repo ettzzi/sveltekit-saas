@@ -2,9 +2,9 @@ import { dev } from '$app/environment';
 import prisma from '$lib/prisma';
 import type { Role } from '@prisma/client';
 
-import { fail, redirect } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 
-export const load = async ({ params, url, cookies, locals }) => {
+export const GET = async ({ params, url, cookies, locals }) => {
 	const { token } = params;
 	const session = await locals.auth.validate();
 	if (!session) {
@@ -17,7 +17,8 @@ export const load = async ({ params, url, cookies, locals }) => {
 		throw redirect(302, `/register`);
 	}
 
-	const inviteExists = await prisma.invite.findUniqueOrThrow({
+	cookies.delete('redirect_to');
+	const inviteExists = await prisma.invite.findUnique({
 		where: {
 			token
 		},
@@ -27,13 +28,25 @@ export const load = async ({ params, url, cookies, locals }) => {
 	});
 
 	if (!inviteExists) {
-		return fail(404, {
+		throw error(400, {
 			message: 'Invite not valid or already used'
 		});
 	}
 
+	if (inviteExists.expires_at < new Date()) {
+		await prisma.invite.delete({
+			where: {
+				token
+			}
+		});
+
+		throw error(400, {
+			message: 'Invite expired'
+		});
+	}
+
 	if (session.user.email !== inviteExists.email) {
-		throw fail(400, {
+		throw error(400, {
 			message: 'Invite not valid or already used'
 		});
 	}
@@ -43,12 +56,11 @@ export const load = async ({ params, url, cookies, locals }) => {
 		deleteInviteByToken(token)
 	]);
 
-	cookies.delete('redirect_to');
 	if (foundTeam.team.slug) {
 		throw redirect(302, `/${foundTeam.team.slug}`);
 	}
 
-	return fail(404, {
+	throw error(404, {
 		message: 'Team not found'
 	});
 };
