@@ -1,5 +1,6 @@
 import { dev } from '$app/environment';
-import { SMTP_FROM, EMAIL_API_TOKEN } from '$env/static/private';
+import { EMAIL_API_TOKEN } from '$env/static/private';
+import config from '$lib/config';
 import { Resend } from 'resend';
 
 const emailClient = new Resend(EMAIL_API_TOKEN);
@@ -19,10 +20,11 @@ export const sendEmail = async ({
 	}
 
 	const options = {
-		from: SMTP_FROM,
+		from: config.email.smtpFrom,
 		to: to,
 		subject: subject,
-		html
+		html,
+		reply_to: config.email.replyTo
 	};
 
 	return emailClient.emails.send(options).catch((e) => {

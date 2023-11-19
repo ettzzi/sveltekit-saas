@@ -3,6 +3,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import Panel from '$lib/components/Panel.svelte';
 	import Textfield from '$lib/components/Textfield.svelte';
+	import config from '$lib/config';
 	import type { ActionData } from './$types';
 
 	export let form: ActionData;
@@ -12,7 +13,7 @@
 	{#if form?.errors}
 		<title>Errors trying to login</title>
 	{:else}
-		<title>Login - SvelteKit Starter</title>
+		<title>Login - {config.appName}</title>
 	{/if}
 </svelte:head>
 

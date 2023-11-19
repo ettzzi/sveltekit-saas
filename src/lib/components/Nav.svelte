@@ -4,6 +4,7 @@
 	import Logo from './Logo.svelte';
 	import { clickoutside } from '$lib/actions/clickOutside';
 	import Button from './Button.svelte';
+	import config from '$lib/config';
 
 	export let user: User | null = null;
 	let dropdownMenu = false;
@@ -12,7 +13,7 @@
 <nav>
 	<div class="container">
 		<a href="/">
-			<span class="sr-only">SvelteKit Starter</span>
+			<span class="sr-only">{config.appName}</span>
 			<Logo size="small" />
 		</a>
 

@@ -13,7 +13,8 @@
 		"format": "prettier --write \"**/*.{ts,js,json,scss,css,svelte}\" --plugin prettier-plugin-svelte .",
 		"test:integration": "playwright test",
 		"test:unit": "vitest",
-		"postinstall": "prisma generate"
+		"postinstall": "prisma generate",
+		"stripe:webhooks": "stripe listen --forward-to localhost:5173/api/stripe/webhook"
 	},
 	"devDependencies": {
 		"@melt-ui/pp": "^0.1.2",
@@ -22,10 +23,10 @@
 		"@sveltejs/adapter-auto": "^2.0.0",
 		"@sveltejs/adapter-vercel": "^3.0.3",
 		"@sveltejs/kit": "^1.20.4",
-		"@typescript-eslint/eslint-plugin": "^6.0.0",
-		"@typescript-eslint/parser": "^6.0.0",
+		"@typescript-eslint/eslint-plugin": "^6.11.0",
+		"@typescript-eslint/parser": "^6.11.0",
 		"autoprefixer": "^10.4.16",
-		"eslint": "^8.28.0",
+		"eslint": "^8.53.0",
 		"eslint-config-prettier": "^9.0.0",
 		"eslint-plugin-svelte": "^2.30.0",
 		"postcss": "^8.4.31",
@@ -49,6 +50,7 @@
 		"lucia": "^2.7.2",
 		"lucide-svelte": "^0.292.0",
 		"resend": "^2.0.0",
+		"stripe": "^14.4.0",
 		"zod": "^3.22.4"
 	}
 }

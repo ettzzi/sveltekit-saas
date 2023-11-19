@@ -1,3 +1,4 @@
+import config from '$lib/config.js';
 import prisma from '$lib/prisma.js';
 import { sendEmail } from '$lib/server/email.js';
 import { fail, redirect } from '@sveltejs/kit';
@@ -98,7 +99,7 @@ export const actions = {
 
 		sendEmail({
 			to: String(email),
-			subject: `You've been invited to SvelteKit Starter`,
+			subject: `You've been invited to ${config.appName}`,
 			html: `<html><body><p>Click <a href="${url.origin}/accept-invite/${token}">here</a> to accept your invite.</p></body></html>`
 		});
 
