@@ -1,9 +1,9 @@
 <script lang="ts">
+	import { PUBLIC_APP_NAME } from '$env/static/public';
 	import Alert from '$lib/components/Alert.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import Panel from '$lib/components/Panel.svelte';
 	import Textfield from '$lib/components/Textfield.svelte';
-	import config from '$lib/config';
 	import type { ActionData } from './$types';
 
 	export let form: ActionData;
@@ -13,7 +13,7 @@
 	{#if form?.errors}
 		<title>Errors trying to login</title>
 	{:else}
-		<title>Login - {config.appName}</title>
+		<title>Login - {PUBLIC_APP_NAME}</title>
 	{/if}
 </svelte:head>
 

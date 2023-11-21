@@ -7,9 +7,10 @@
 	import type { ActionData, PageData } from './$types';
 	import Panel from '$lib/components/Panel.svelte';
 	import { createToast } from '$lib/components/Toast.svelte';
-	import type { Action, SubmitFunction } from '@sveltejs/kit';
+	import type { SubmitFunction } from '@sveltejs/kit';
 	import Alert from '$lib/components/Alert.svelte';
 	import { goto } from '$app/navigation';
+	import { SubscriptionStatus } from '@prisma/client';
 	export let data: PageData;
 
 	export let form: ActionData;
@@ -82,6 +83,17 @@
 			<Textfield label="Email" fieldType="email" name="email" />
 			<Button type="submit">Invite</Button>
 		</form>
+	</Panel>
+
+	<Panel title="Subscription">
+		{#if !data.team.subscription_active}
+			You need to <a href={`/${data.team.slug}/subscription`}>subscribe</a> to access the app >
+		{:else}
+			<form action="?/createPortal" method="post" class="flow">
+				<input type="hidden" name="customer_id" value={data.team.customer_id} />
+				<Button type="submit">Manage subscription</Button>
+			</form>
+		{/if}
 	</Panel>
 
 	<Loader promise={data.streamed.teamRoles} let:value showLoader={false}>

@@ -1,4 +1,4 @@
-import prisma from '$lib/prisma.js';
+import { fetchUserByEmail } from '$lib/server/data/users';
 import { auth, googleAuth } from '$lib/server/lucia';
 import { OAuthRequestError } from '@lucia-auth/oauth';
 import { error } from '@sveltejs/kit';
@@ -32,11 +32,7 @@ export const GET = async ({ url, cookies, locals }) => {
 				throw error(400, 'Google email not found');
 			}
 
-			const existingDatabaseUserWithEmail = await prisma.user.findUnique({
-				where: {
-					email: googleUser.email
-				}
-			});
+			const existingDatabaseUserWithEmail = await fetchUserByEmail(googleUser.email);
 
 			if (existingDatabaseUserWithEmail) {
 				const user = auth.transformDatabaseUser(existingDatabaseUserWithEmail);

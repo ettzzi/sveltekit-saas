@@ -1,4 +1,4 @@
-import config from '$lib/config';
+import { PUBLIC_APP_NAME } from '$env/static/public';
 import { sendEmail } from '$lib/server/email';
 import { generateEmailVerificationToken } from '$lib/server/token';
 import { redirect, type Actions, fail } from '@sveltejs/kit';
@@ -15,7 +15,7 @@ export const actions: Actions = {
 
 			sendEmail({
 				to: String(session.user.email),
-				subject: `Welcome to ${config.appName}`,
+				subject: `Welcome to ${PUBLIC_APP_NAME}`,
 				html: `<html><body><p>Click <a href="${url.origin}/email-verification/${token}">here</a> to verify your e-mail address.</p></body></html>`
 			});
 

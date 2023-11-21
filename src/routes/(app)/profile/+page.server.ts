@@ -1,4 +1,5 @@
 import prisma from '$lib/prisma';
+import { updateUser } from '$lib/server/data/users';
 import { auth } from '$lib/server/lucia';
 import {
 	PrismaClientKnownRequestError,
@@ -75,7 +76,7 @@ export const actions: Actions = {
 		try {
 			if (session?.user.email !== email) {
 				prisma.$transaction([
-					prisma.user.update({
+					updateUser({
 						where: { id: session.user.userId },
 						data: {
 							name,

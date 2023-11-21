@@ -2,9 +2,9 @@ import { auth } from '$lib/server/lucia';
 import { fail, type Actions } from '@sveltejs/kit';
 
 import z from 'zod';
-import prisma from '$lib/prisma';
 import { generatePasswordResetToken } from '$lib/server/token';
 import { sendEmail } from '$lib/server/email';
+import { fetchUserByEmail } from '$lib/server/data/users';
 
 const resetPasswordSchema = z.object({
 	email: z.string().email().min(1)
@@ -24,11 +24,7 @@ export const actions: Actions = {
 		}
 
 		try {
-			const storedUser = await prisma.user.findUnique({
-				where: {
-					email: resetPasswordData.data.email
-				}
-			});
+			const storedUser = await fetchUserByEmail(resetPasswordData.data.email);
 
 			if (!storedUser) {
 				return fail(400, {

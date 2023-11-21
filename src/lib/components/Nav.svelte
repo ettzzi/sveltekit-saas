@@ -4,7 +4,7 @@
 	import Logo from './Logo.svelte';
 	import { clickoutside } from '$lib/actions/clickOutside';
 	import Button from './Button.svelte';
-	import config from '$lib/config';
+	import { PUBLIC_APP_NAME } from '$env/static/public';
 
 	export let user: User | null = null;
 	let dropdownMenu = false;
@@ -13,7 +13,7 @@
 <nav>
 	<div class="container">
 		<a href="/">
-			<span class="sr-only">{config.appName}</span>
+			<span class="sr-only">{PUBLIC_APP_NAME}</span>
 			<Logo size="small" />
 		</a>
 

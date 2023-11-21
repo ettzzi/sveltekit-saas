@@ -36,6 +36,14 @@ Please refer to [Google Oauth Documentaiton](https://developers.google.com/ident
 
 We use [Resend](https://resend.com) to send e-mails. For production you will need to setup your domain DNS.
 
+### Stripe
+
+Configure your `prices` in `lib/config.ts` file. The keys are the lookup keys that will be retrieved from Stripe. You can add a `name` and a `description` for each price. 
+
+### Webhooks
+
+In local development to listen to webhooks you will need to run `npm run stripe:webhooks` that depends on `stripe` cli. 
+
 ## Deployment
 
 Currently, the project is setup for deployment on [Vercel](https://vercel.com) and uses MySQL as database from [PlanetScale](http://planetscale.com). This is mostly chosen because of their generous free tiers.
