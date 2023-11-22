@@ -1,18 +1,13 @@
+import { PUBLIC_APP_NAME } from '$env/static/public';
+
 import prisma from '$lib/prisma.js';
 import { sendEmail } from '$lib/server/email.js';
+import { stripe } from '$lib/server/stripe.js';
 import { fail, redirect } from '@sveltejs/kit';
 import crypto from 'crypto';
 
-export const load = async ({ params }) => {
-	const team = await prisma.team.findUnique({
-		where: {
-			slug: params.slug
-		}
-	});
-	if (!team) {
-		throw redirect(302, '/');
-	}
-
+export const load = async ({ params, parent }) => {
+	const { team } = await parent();
 	return {
 		team,
 		streamed: {
@@ -98,12 +93,24 @@ export const actions = {
 
 		sendEmail({
 			to: String(email),
-			subject: `You've been invited to SvelteKit Starter`,
+			subject: `You've been invited to ${PUBLIC_APP_NAME}`,
 			html: `<html><body><p>Click <a href="${url.origin}/accept-invite/${token}">here</a> to accept your invite.</p></body></html>`
 		});
 
 		return {
 			success: true
 		};
+	},
+
+	createPortal: async ({ url, request }) => {
+		const formData = await request.formData();
+		const customerId = formData.get('customer_id');
+
+		const portalSession = await stripe.billingPortal.sessions.create({
+			customer: customerId!.toString(),
+			return_url: url.href
+		});
+
+		throw redirect(302, portalSession.url);
 	}
 };

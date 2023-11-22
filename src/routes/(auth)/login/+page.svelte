@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { PUBLIC_APP_NAME } from '$env/static/public';
 	import Alert from '$lib/components/Alert.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import Panel from '$lib/components/Panel.svelte';
@@ -12,7 +13,7 @@
 	{#if form?.errors}
 		<title>Errors trying to login</title>
 	{:else}
-		<title>Login - SvelteKit Starter</title>
+		<title>Login - {PUBLIC_APP_NAME}</title>
 	{/if}
 </svelte:head>
 

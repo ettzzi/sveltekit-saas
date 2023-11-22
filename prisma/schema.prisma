@@ -60,9 +60,13 @@ model PasswordResetToken {
 }
 
 model Team {
-  id           Int            @id @unique @default(autoincrement())
-  name         String
-  slug         String         @unique
+  id                  Int     @id @unique @default(autoincrement())
+  name                String
+  slug                String  @unique
+  subscription_active Boolean @default(false)
+  customer_id         String? @unique
+  price_id            String?
+
   UserTeamRole UserTeamRole[]
   Invite       Invite[]
 }

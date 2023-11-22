@@ -6,6 +6,7 @@ import { fail, redirect, type Actions } from '@sveltejs/kit';
 import { LuciaError } from 'lucia';
 
 import z from 'zod';
+import { PUBLIC_APP_NAME } from '$env/static/public';
 
 const userSchema = z
 	.object({
@@ -62,7 +63,7 @@ export const actions: Actions = {
 
 			sendEmail({
 				to: String(email),
-				subject: `Welcome to SvelteKit Starter`,
+				subject: `Welcome to ${PUBLIC_APP_NAME}`,
 				html: `<html><body><p>Click <a href="${url.origin}/email-verification/${token}">here</a> to verify your e-mail address.</p></body></html>`
 			});
 
