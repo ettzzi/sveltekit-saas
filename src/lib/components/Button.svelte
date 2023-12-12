@@ -16,12 +16,27 @@
 </script>
 
 {#if href}
-	<a {href} class="{variant} {size} {kind}"><slot /></a>
+	<a {href}		class="btn"
+	class:fullWidth
+	class:btn-primary={variant === 'primary'}
+	class:btn-secondary={variant === 'secondary'}
+	class:btn-error={variant === 'danger'}
+	class:btn-md={size === 'medium'}
+	class:btn-sm={size === 'small'}
+	class:btn-lg={size === 'large'}
+	class:btn-outline={kind === 'outline'}><slot /></a>
 {:else}
 	<button
 		on:click
-		class="{variant} {size} {kind}"
+		class="btn"
 		class:fullWidth
+		class:btn-primary={variant === 'primary'}
+		class:btn-secondary={variant === 'secondary'}
+		class:btn-error={variant === 'danger'}
+		class:btn-md={size === 'medium'}
+		class:btn-sm={size === 'small'}
+		class:btn-lg={size === 'large'}
+		class:btn-outline={kind === 'outline'}
 		{type}
 		{disabled}
 		formaction={formAction}
@@ -30,74 +45,4 @@
 	</button>
 {/if}
 
-<style>
-	button,
-	a {
-		display: inline-block;
-		text-align: center;
-		cursor: pointer;
-		text-decoration: none;
-		word-wrap: break-word;
-		box-shadow: none;
-		border-style: solid;
-		border-width: 2px;
-	}
 
-	button:disabled {
-		cursor: not-allowed;
-	}
-
-	a:focus,
-	button:focus {
-		box-shadow: var(--color-yellow-500) 0px 0px 0px 4px inset;
-		outline: transparent dotted 4px;
-	}
-
-	.small {
-		font-size: var(--fs-sm);
-		line-height: var(--line-height-md);
-		padding: var(--s-sm) var(--s-md);
-		border-radius: 24px;
-	}
-
-	.medium {
-		font-size: var(--fs-md);
-		line-height: var(--line-height-lg);
-		padding: var(--s-sm) var(--s-xl);
-		border-radius: 24px;
-	}
-
-	.primary {
-		color: var(--color-white, #fff);
-		background-color: var(--color-blue-500);
-		border-color: var(--color-blue-500);
-	}
-
-	.primary:hover {
-		color: var(--color-white, #fff);
-		background-color: var(--color-blue-300);
-		border-color: var(--color-blue-300);
-	}
-
-	.primary.outline {
-		background-color: #fff;
-		color: var(--color-blue-500);
-		border-color: var(--color-blue-300);
-	}
-
-	.danger {
-		color: var(--color-white, #fff);
-		background-color: var(--color-red-500);
-		border-color: var(--color-red-500);
-	}
-
-	.danger:hover {
-		color: var(--color-white, #fff);
-		background-color: var(--color-red-300);
-		border-color: var(--color-red-300);
-	}
-
-	.fullWidth {
-		width: 100%;
-	}
-</style>

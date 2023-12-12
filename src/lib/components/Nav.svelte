@@ -10,7 +10,7 @@
 	let dropdownMenu = false;
 </script>
 
-<nav>
+<nav class="navbar bg-base-100">
 	<div class="container">
 		<a href="/">
 			<span class="sr-only">{PUBLIC_APP_NAME}</span>
@@ -75,60 +75,3 @@
 		{/if}
 	</div>
 </nav>
-
-<style scoped>
-	nav {
-		background-color: var(--color-light);
-		border-bottom: 1px solid var(--color-gray-200);
-	}
-
-	.container {
-		padding: 0 var(--s-xl);
-		height: 60px;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin: 0 auto;
-	}
-
-	.dropdown {
-		position: relative;
-		display: inline-block;
-		align-self: center;
-	}
-
-	.dropdown-item {
-		display: block;
-		padding: var(--s-sm) var(--s-md);
-		font-size: var(--fs-s);
-		color: var(--color-gray-900);
-		background: none;
-		border: 0;
-		width: 100%;
-		text-align: left;
-		cursor: pointer;
-		text-decoration: none;
-	}
-
-	.dropdown-item:hover {
-		background-color: var(--color-gray-200);
-	}
-
-	.dropdown-menu {
-		position: absolute;
-		right: 0;
-		margin-top: var(--s-sm);
-		width: 14rem;
-		border-radius: 0.25rem;
-		background-color: var(--color-light);
-		border: 1px solid var(--color-gray-200);
-		box-shadow:
-			0 10px 15px -3px rgb(0 0 0 / 0.1),
-			0 4px 6px -4px rgb(0 0 0 / 0.1);
-	}
-
-	.dropdown-button {
-		border: 0;
-		background: none;
-	}
-</style>
